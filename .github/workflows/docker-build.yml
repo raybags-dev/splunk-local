@@ -1,0 +1,44 @@
+name: Docker Build & Push
+
+on:
+  push:
+    branches:
+      - main
+      - ray__staging
+  pull_request:
+    branches:
+      - main
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+    env:
+      GIT_SHA: ${{ github.sha }}
+      VERSION: ${{ secrets.VERSION != '' && secrets.VERSION || github.sha }}
+      ENCRYPTION_KEY: ${{ secrets.ENCRYPTION_KEY }}
+
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v4
+
+      - name: Log in to Docker Hub
+        uses: docker/login-action@v3
+        with:
+          username: ${{ secrets.DOCKERHUB_USERNAME_PERSONAL }}
+          password: ${{ secrets.DOCKERHUB_TOKEN_PERSONAL }}
+
+      - name: Set up Docker Buildx
+        uses: docker/setup-buildx-action@v3
+
+      - name: Build and push Docker image
+        uses: docker/build-push-action@v6
+        with:
+          context: .
+          push: true
+          tags: |
+            tonnybags/splunk-local:latest
+            tonnybags/splunk-local:v${{ env.VERSION }}
+
+      - name: Cleanup old images
+        run: docker image prune -af --filter "until=24h"
+        continue-on-error: true
