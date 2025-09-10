@@ -3,9 +3,14 @@ FROM splunk/splunk:latest
 
 WORKDIR /opt/splunk-local
 
-COPY start-splunk.sh stop-splunk.sh ./
-
-RUN chmod +x ./start-splunk.sh ./stop-splunk.sh
+# Create scripts with proper permissions in one RUN command
+RUN echo '#!/bin/bash' > start-splunk.sh && \
+    echo 'echo "Starting Splunk..."' >> start-splunk.sh && \
+    echo '/sbin/entrypoint.sh splunkd' >> start-splunk.sh && \
+    echo '#!/bin/bash' > stop-splunk.sh && \
+    echo 'echo "Stopping Splunk..."' >> stop-splunk.sh && \
+    echo '/opt/splunk/bin/splunk stop' >> stop-splunk.sh && \
+    chmod +x start-splunk.sh stop-splunk.sh
 
 EXPOSE 8000 8089
 
