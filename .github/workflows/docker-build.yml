@@ -38,7 +38,11 @@ jobs:
           tags: |
             tonnybags/splunk-local:latest
             tonnybags/splunk-local:v${{ env.VERSION }}
-
+          build-args: |
+            SPLUNK_USERNAME=${{ secrets.SPLUNK_USERNAME }}
+            SPLUNK_PASSWORD=${{ secrets.SPLUNK_PASSWORD }}
+          labels: |
+            org.opencontainers.image.source=${{ github.repository }}
       - name: Cleanup old images
         run: docker image prune -af --filter "until=24h"
         continue-on-error: true
