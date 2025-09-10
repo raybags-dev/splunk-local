@@ -1,0 +1,50 @@
+
+# Distribution / packaging
+# Docker
+# Installer logs
+# Splunk
+# VS Code
+*$py.class
+*.egg
+*.egg-info/
+*.log
+*.pid
+*.pid.lock
+*.py[cod]
+*.seed
+.DS_Store
+.Python
+.docker/
+.eggs/
+.env
+.env.*
+.env.development
+.env.local
+.env.production
+.idea/
+.installed.cfg
+.vscode/
+Thumbs.db
+__pycache__/
+build/
+develop-eggs/
+dist/
+docker-compose.override.yml
+downloads/
+eggs/
+lib/
+lib64/
+logs/
+node_modules/
+npm-debug.log*
+parts/
+pip-delete-this-directory.txt
+pip-log.txt
+sdist/
+splunk/etc/*.conf
+splunk/etc/passwd
+splunk/var/lib/splunk/.env.local
+splunk/var/log/
+splunk/var/run/
+var/
+yarn.lock
